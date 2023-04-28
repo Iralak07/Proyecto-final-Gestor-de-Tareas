@@ -1,0 +1,168 @@
+*{
+    margin: 0 auto;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #171717;
+  color: aliceblue;
+}
+
+header {
+  margin-top: 40px;
+  height: 150px;
+  text-align: center;
+}
+
+#pagina1 {
+  /* background-color: #ECF2FF; */
+  width: 100vh;
+  height: 50vh;
+  inset: 0;
+  margin: auto;
+  text-align: center;
+}
+
+#opciones {
+  width: 100%;
+  height: 100%;
+  float: left;
+}
+
+*/ #botones {
+  position: relative;
+  top: 30%;
+}
+
+.botonPag {
+  width: 200px;
+  display: inline;
+  margin: 2px;
+  padding: 10px 20px;
+  font-size: 12px;
+  background-color: #a459d1;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+}
+
+/* Pagina 2, registro de tareas  */
+#pagina2 {
+  width: 120vh;
+  height: 65vh;
+  inset: 0;
+  margin: auto;
+  text-align: center;
+}
+
+#formulario {
+    position: relative;
+    top: 10%;
+    width: 50%;
+    height: 100%;
+    float: left;
+  }
+  
+  .content {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+  
+  #tarea {
+    width: 200px;
+    margin: 5px;
+  }
+  
+  #descripcion {
+    width: 300px;
+    height: 100px;
+    margin: 2px;
+  }
+  
+  select {
+    width: 200px;
+    margin: 2px;
+  }
+  
+  input[type="submit"] {
+    margin-top: 2px;
+  }
+
+  #tareasAgregadas{
+    width: 50%;
+    height: 100%;
+    float: left;
+  }
+
+
+
+/* Pagina 3 visualizacion de las tareas*/
+#pagina3 {
+    background-color: #a459d1;
+    width: 150vh;
+    height: 80vh;
+    inset: 0;
+    margin: auto;
+    justify-content: center;
+    text-align: center;
+}
+
+#pendientes{
+    background-color: #fff;
+    width: 50%;
+    height: 100%;
+    float: left;
+}
+
+#tituloPendientes{
+    background-color: aqua;
+    width: 100%;
+}
+
+#tareaPendientes{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: blue;
+    height: 100px;
+    margin: 10px;
+}
+
+#terminadas{
+    background-color: chartreuse;
+    width: 50%;
+    height: 100%;
+    float: left;
+    margin-top: 0px;
+    text-align: center;
+}
+
+#tituloTerminadas{
+    background-color: rgb(191, 78, 37);
+    width: 100%;
+}
+
+#tareaTerminadas{
+    background-color: rgb(255, 204, 0);
+    height: 100px;
+    margin: 10px;
+}
+
+
+.tareaPendienteContainer{
+    margin: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tareaPendienteBoton{
+    display: flex;
+    flex-direction: column;
+    justify-content:space-around;
+    padding-right: 5px;
+
+}

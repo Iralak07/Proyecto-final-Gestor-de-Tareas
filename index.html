@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <title>Tareas</title>
+        <link rel="stylesheet" href="./style.css">
+        <script src="script.js"></script>
+    </head>
+    <body>
+        <header>
+            <h1>Gestor de Tareas</h1>
+            <p>Esta aplicacion permite al usuario agregar una tarea, con diferentes niveles de prioridad</p>
+            <p>Marcar como completada, modificarlas y eliminarlas en su caso.</p>
+        </header>
+        <div class="paginas" id="pagina1">
+            <div id="opciones">
+                <div id="botones">
+                    <h1>Que desea hacer?</h1>
+                    <button class='botonPag' data-pagina="pagina2">Registrar Tareas</button>
+                    <button class='botonPag' data-pagina="pagina3">Ver Tareas</button>
+                </div>
+                <div id="detalles">
+                    <h1>Estado de las Tareas</h1>
+                    <p><span style="color:#1929a5; font-size:20px">Total: </span>22</p>
+                    <p><span style="color:#C84B31; font-size:20px">Pendientes: </span>12</p>
+                    <p><span style="color:#07f407; font-size:20px">Terminadas: </span> 10</p>
+                </div>
+            </div>
+        </div>
+        <div class='paginas' id="pagina2">
+            <h1><span style="color: #a459d1">Nueva tarea</span></h1>
+                <div id="formulario">
+                    <form>
+                        <div id="registrarTareas">
+                            <label class="content">
+                                Nombre de la Tarea
+                                <input id="tarea" placeholder = "Nueva Tarea" type="text">
+                            </label>
+                            <label class="content">
+                                Breve descripcion
+                                <textarea id="descripcion" type="text" placeholder="Ingrese una descripcion de la tarea a realizarse" size="100"></textarea>
+                            </label>
+                            <label class="content">
+                                Prioridad:
+                                <select>
+                                    <option value="normal" selected>Normal</option>
+                                    <option value="medio">Medio</option>
+                                    <option value="urgente">Urgente</option>
+                                </select>
+                            </label>
+                            <div class="content">
+                                <input id="submit" type="submit" value="Registrar">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div id="tareasAgregadas">
+                    <h1>Ultimas agregadas</h1>
+                    <div id="recienCreadas">
+
+                    </div>
+                </div>
+        </div>
+        <div class="paginas" id="pagina3">
+            <div id="pendientes">
+                <div id="tituloPendientes">
+                    <h1>Pendientes</h1>
+                </div>
+                <div id="tareaPendientes">
+                    <div class="tareaPendienteContainer">
+                        <div>
+                            <h4>Tarea: Hacer cosas</h4>
+                        </div>
+                        <div>
+                            <p>Descripcion: esto es una descripcion de una tarea que hay que hacer rapido</p>
+                        </div>
+                    </div>
+                    <div class="tareaPendienteBoton">
+                        <button>x</button>
+                        <button>Terminado</button>
+                    </div>
+                </div>
+            </div>
+            <div id="terminadas">
+                <div id="tituloTerminadas">
+                    <h1>Terminadas</h1>
+                </div>
+                <div id="tareaTerminadas">
+                    <div class="tareaPendienteContainer">
+                        <div>
+                            <h4>Tarea: Hacer cosas</h4>
+                        </div>
+                        <div>
+                            <p>Descripcion: esto es una descripcion de una tarea que hay que hacer rapido</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

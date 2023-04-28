@@ -1,0 +1,7 @@
+Sin embargo, una desventaja de nuestro sitio es que la URL ahora es menos informativa.
+ Notarás en el video de arriba que la URL permanece igual incluso cuando cambiamos de sección a sección. 
+ Podemos resolver este problema utilizando la API de historial de JavaScript .
+  Esta API nos permite enviar información a nuestro historial de navegación y actualizar la URL manualmente. 
+  Echemos un vistazo a cómo podemos usar esta API. 
+  Imagina que tenemos un proyecto de Django idéntico al anterior, 
+  pero esta vez deseamos modificar nuestro script para utilizar la API de historial: 
