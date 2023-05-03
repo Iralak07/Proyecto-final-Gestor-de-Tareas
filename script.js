@@ -3,13 +3,18 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Seleccionamos el el submit y el campo input donde se escribe la nueva tarea
     let contador = 0;
+    let seccion;
     const SUBMIT = document.querySelector('#submit');
     const NUEVATarea = document.querySelector('#tarea');
     const DESCRIPCION = document.querySelector('#descripcion');
     const SELECT = document.querySelector('select');
     const BOTONPagina = document.querySelectorAll('.botonPag');
-    const PAGINAS = document.querySelectorAll('.paginas')
-    let pendiente = true
+    const PAGINAS = document.querySelectorAll('.paginas');
+    const CONTENEDORPendientes = document.querySelector('#pendientes');
+    const CONTENEDORTerminadas = document.querySelector('#terminadas');
+    const CONTENEDORUltimasAgregadas = document.querySelector('#ultimasAgregadas');
+
+    let pendiente = true;
     const PRIORIDADES = {
         normal: 'NORMAL',
         medio: 'MEDIO',
@@ -25,8 +30,9 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     
     function cambiarPagina(pagina){
+        limpiarTareas();
         ocultarPagina();
-        document.getElementById(`${pagina}`).style.display = 'block'
+        document.getElementById(`${pagina}`).style.display = 'flex'
     };
 
     function ocultarPagina(){
@@ -39,13 +45,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     BOTONPagina.forEach(boton=>{
         boton.onclick = function(){
-            const seccion = this.dataset.pagina;
+            seccion = this.dataset.pagina;
             // Agregamos al historial del navegador
             // history.pushState({section: seccion}, "", `/${seccion == 'pagina2'? 'registroTareas':'tareas'}`);
             if(seccion == 'pagina2'){
+                cambiarPagina(seccion);
                 agregarUltimasTareasCreadas()
+            }else if(seccion == 'pagina3'){
+                cambiarPagina(seccion);
+                obtenerTareas();
             }
-            cambiarPagina(seccion);
         }
     });
 
@@ -78,17 +87,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function obtenerColor(prioridad){
         if(prioridad == PRIORIDADES.normal){
-            return 'grey';
+            return '#46B5D1';
         }else if(prioridad == PRIORIDADES.medio){
-            return 'yellow';
+            return '#FFD700';
         }else{
-            return 'red';
+            return '#FF0000';
         }
     };
 
     function guardarTarea(tarea, descripcion, prioridad){
             let existeTareas = localStorage.getItem('tareas'); 
-            let datos = [tarea, descripcion, prioridad, true]
+            let datos = [tarea, descripcion, prioridad, pendiente]
             if(existeTareas !== null){
                 // Si la clave ya existe, obtener el valor actual
                 let tareas = JSON.parse(existeTareas);
@@ -103,17 +112,22 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     function agregarUltimasTareasCreadas(){
-        document.querySelector('#recienCreadas').innerHTML = '';
-        let tareasLocalStorage =  JSON.parse(localStorage.getItem('tareas')).reverse();
-        for(let i = 0; i <= 2; i++){
-                let tarea = tareasLocalStorage[i][0];
-                let color = obtenerColor(tareasLocalStorage[i][2]);
-                let prioridadTemp = tareasLocalStorage[i][2]
-                // Creamos un elemento p y lo agreagamos a la seccion 
-                const P = document.createElement('p');
-                P.innerHTML = `Nombre:  ${ tarea  }` + "  Prioridad: " + "  "+ `<span style=color:${color}>`+ `${prioridadTemp}</span>`;
-                // Luego agregamos la tarea dentro del la <ul></ul>
-                document.querySelector('#recienCreadas').append(P);   
+        limpiarTareas();
+        let tareasLocalStorage = localStorage.getItem('tareas');
+        if (tareasLocalStorage !== null){
+            tareasLocalStorage = JSON.parse(tareasLocalStorage).reverse();
+            for(let i = 0; i < tareasLocalStorage.length; i++){
+                if(i <=2){
+                    let tarea = tareasLocalStorage[i][0];
+                    let descripcion = tareasLocalStorage[i][1];
+                    let prioridad = tareasLocalStorage[i][2];
+                    let estado = tareasLocalStorage[i][3];
+                    let id = i;
+                    crearElementos(tarea, descripcion, prioridad, estado, id); 
+                }else{
+                    break;
+                }
+            }
         }
     };
 
@@ -129,5 +143,121 @@ document.addEventListener('DOMContentLoaded', function() {
         agregarUltimasTareasCreadas();
         // Vamos a borrar los campos del formulario
         porDefecto();
+    });
+
+
+    function obtenerTareas(){
+        let tareasLocalStorage = localStorage.getItem('tareas');
+        if (tareasLocalStorage !== null){
+            tareasLocalStorage = JSON.parse(tareasLocalStorage);
+            for(let i = 0; i < tareasLocalStorage.length; i++){
+                let tarea = tareasLocalStorage[i][0];
+                let descripcion = tareasLocalStorage[i][1];
+                let prioridad = tareasLocalStorage[i][2];
+                let estado = tareasLocalStorage[i][3];
+                let id = i;
+                crearElementos(tarea, descripcion, prioridad, estado, id);  
+            }
+        }
+    }
+    
+    function limpiarTareas(){
+        CONTENEDORPendientes.innerHTML = '';
+        CONTENEDORTerminadas.innerHTML = '';
+        CONTENEDORUltimasAgregadas.innerHTML = '';
+    }
+
+    function cambiarEstado(id){
+        let tareasLocalStorage = localStorage.getItem('tareas');
+        tareasLocalStorage = JSON.parse(tareasLocalStorage);
+        tareasLocalStorage[id][3] = tareasLocalStorage[id][3] == true? false : true;
+        localStorage.setItem('tareas', JSON.stringify(tareasLocalStorage));
+        limpiarTareas();
+        obtenerTareas();
+    }
+
+    function eliminarTarea(id){
+        let tareasLocalStorage = localStorage.getItem('tareas');
+        tareasLocalStorage = JSON.parse(tareasLocalStorage);
+        tareasLocalStorage.splice(id,1);
+        localStorage.setItem('tareas', JSON.stringify(tareasLocalStorage));
+        limpiarTareas();
+        obtenerTareas(); 
+    }
+    document.addEventListener('click', (evento)=>{
+        let elemento = evento.target;
+        let id = elemento.dataset.id;
+        if(elemento.textContent == 'Terminar'){
+            cambiarEstado(id)
+        }else if(elemento.textContent == 'Pendiente'){
+            cambiarEstado(id);
+        }else if(elemento.textContent == 'X'){
+            eliminarTarea(id)
+        }
     })
+
+    // Seccion mostrar tareas pendientes y terminadas
+    function crearElementos(tarea, descripcion, prioridad, estado, id){
+        let color = obtenerColor(prioridad);
+        // Crear la nueva sección dentro de las tareas pendientes
+        // Agregamos la clase .box
+        let nuevaSeccionPendientes = document.createElement('div');
+        nuevaSeccionPendientes.classList.add('box');
+
+        // Crear el contenido de la sección
+        let seccionTareaPendientes = document.createElement('div');
+        seccionTareaPendientes.classList.add('seccionTarea');
+
+        // vamos a crear dos div en el cual vamos a gregar el titulo de la tarea y la descripcion respectivamente
+        let seccionTituloTarea = document.createElement('div');
+        let tituloPendientes = document.createElement('h1');
+        tituloPendientes.textContent = tarea;
+        seccionTituloTarea.appendChild(tituloPendientes);
+        seccionTareaPendientes.appendChild(seccionTituloTarea);
+
+        let seccionDescripcion = document.createElement('div');
+        let descripcionPendientes = document.createElement('p');
+        descripcionPendientes.textContent = descripcion;
+        seccionDescripcion.appendChild(descripcionPendientes);
+        seccionTareaPendientes.appendChild(seccionDescripcion);
+
+        // Seccio BotonPendientes
+        let seccionBotonPendientes = document.createElement('div');
+        seccionBotonPendientes.classList.add('seccionBoton');
+        seccionBotonPendientes.style = `background-color: ${color}`;
+
+        let botonCerrarPendientes = document.createElement('div');
+        botonCerrarPendientes.classList.add('botonCerrar');
+
+        let botonXPendientes = document.createElement('button');
+        botonXPendientes.textContent = 'X';
+        botonXPendientes.setAttribute('data-id', id);
+        botonXPendientes.style = 'border: none; border-radius: 5px; background-color: blue';
+
+        let divSeccionBotonPendientes = document.createElement('div');
+        divSeccionBotonPendientes.appendChild(botonXPendientes);
+
+        botonCerrarPendientes.appendChild(divSeccionBotonPendientes);
+
+        let botonTerminarPendientes = document.createElement('button');
+        botonTerminarPendientes.setAttribute('data-id', id);
+        botonTerminarPendientes.textContent = estado == true ? 'Terminar': 'Pendiente';
+
+        seccionBotonPendientes.appendChild(botonCerrarPendientes);
+        seccionBotonPendientes.appendChild(botonTerminarPendientes);
+
+        nuevaSeccionPendientes.appendChild(seccionTareaPendientes);
+        nuevaSeccionPendientes.appendChild(seccionBotonPendientes);
+
+        if(seccion == 'pagina2'){
+            CONTENEDORUltimasAgregadas.appendChild(nuevaSeccionPendientes)
+        }else{
+            if(estado){
+                // Agregar la nueva sección al contenedor de tareas pendientes
+                CONTENEDORPendientes.appendChild(nuevaSeccionPendientes);
+                }else{
+                    CONTENEDORTerminadas.appendChild(nuevaSeccionPendientes);
+                }
+        }
+    }
 });
