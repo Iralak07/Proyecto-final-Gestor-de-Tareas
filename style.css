@@ -1,10 +1,11 @@
-*{
-    margin: 0 auto;
+* {
+  margin: 0 auto;
+  font-family: 'Roboto', sans-serif;
 }
 
 body {
   font-family: sans-serif;
-  background-color: #171717;
+  background-color: #0B2447;
   color: aliceblue;
 }
 
@@ -45,8 +46,17 @@ header div{
  margin-top: 20px;
 }
 
-#detalles div p{
+#detalles div h2 {
+  font-size: 18px;
+}
+
+#detalles div p {
   margin: 10px;
+}
+
+#detalles div p span{
+  font-weight: 400;
+  font-size: 15px;
 }
 
 .botonPag {
@@ -55,10 +65,19 @@ header div{
   margin: 2px;
   padding: 10px 20px;
   font-size: 12px;
-  background-color: #a459d1;
-  color: #fff;
-  border: none;
+  font-weight: 400;
+  background-color: #A5D7E8;
+  border: 2px solid #A5D7E8;
+  color: #0B2447;
   border-radius: 10px;
+  cursor: pointer;
+  transition: .3s ease;
+}
+
+.botonPag:hover,
+.botonPag:focus {
+  background-color: #0B2447;
+  color: #A5D7E8;
 }
 
 /* Pagina 2, registro de tareas  */
@@ -100,12 +119,18 @@ form{
   display: flex;
   flex-direction: column;
   text-align: center;
+  max-width: 300px;
+  width: 100%;
 }
 
-#tareasAgregadas{
+#tareasAgregadas {
   display: flex;
   flex-direction: column;
   flex: 2 1;
+}
+
+#tareasAgregadas h3 {
+  font-weight: 400;
 }
 
 #ultimasAgregadas{
@@ -166,4 +191,37 @@ form{
   flex-direction: row;
   flex: 2 1;
   margin-right: 0px;
+}
+
+/* new styles */
+h1 {
+  font-size: 30px;
+}
+
+h2 {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+h3 {
+  font-weight: 300;
+}
+
+p {
+  font-weight: 300;
+}
+
+.heading-md {
+  margin-bottom: 40px;
+  font-size: 22px;
+}
+
+
+@media only screen and (min-width: 992px) {
+  h1 {
+    font-size: 40px;
+  }
+  h2 {
+    font-size: 25px;
+  }
 }
