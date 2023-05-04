@@ -114,9 +114,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if(prioridad == PRIORIDADES.normal){
             return '#46B5D1';
         }else if(prioridad == PRIORIDADES.medio){
-            return '#FFD700';
+            return '#f5e67b';
         }else{
-            return '#FF0000';
+            return '#d5420b';
         }
     };
 
@@ -236,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // vamos a crear dos div en el cual vamos a gregar el titulo de la tarea y la descripcion respectivamente
         let seccionTituloTarea = document.createElement('div');
-        let tituloPendientes = document.createElement('h1');
+        let tituloPendientes = document.createElement('h3');
         tituloPendientes.textContent = tarea;
         seccionTituloTarea.appendChild(tituloPendientes);
         seccionTareaPendientes.appendChild(seccionTituloTarea);
@@ -257,8 +257,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let botonXPendientes = document.createElement('button');
         botonXPendientes.textContent = 'X';
+        botonXPendientes.classList.add('botonX');
         botonXPendientes.setAttribute('data-id', id);
-        botonXPendientes.style = 'border: none; border-radius: 5px; background-color: blue';
 
         let divSeccionBotonPendientes = document.createElement('div');
         divSeccionBotonPendientes.appendChild(botonXPendientes);
@@ -267,6 +267,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let botonTerminarPendientes = document.createElement('button');
         botonTerminarPendientes.setAttribute('data-id', id);
+        botonTerminarPendientes.classList.add('botonEstado');
         botonTerminarPendientes.textContent = estado == true ? 'Terminar': 'Pendiente';
 
         seccionBotonPendientes.appendChild(botonCerrarPendientes);
