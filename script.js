@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const CONTENEDORTerminadas = document.querySelector('#terminadas');
     const CONTENEDORUltimasAgregadas = document.querySelector('#ultimasAgregadas');
 
+    // Estado inicial de la tarea
     let pendiente = true;
     const PRIORIDADES = {
         normal: 'NORMAL',
@@ -21,20 +22,43 @@ document.addEventListener('DOMContentLoaded', function() {
         urgente: 'URGENTE'
     };
 
+    // Por defecto la prioridad se coloca en normal
     let prioridad = PRIORIDADES.normal;
-    let tareas = [];
-
-    window.onpopstate = function(event) {
-        ocultarPagina();
-        cambiarPagina('pagina1');
-    };
     
     function cambiarPagina(pagina){
         limpiarTareas();
         ocultarPagina();
+        if(pagina == 'pagina1'){
+            estadoDeLasTareas();
+        }
         document.getElementById(`${pagina}`).style.display = 'flex'
     };
 
+    function estadoDeLasTareas(){
+        let tareasLocalStorage = localStorage.getItem('tareas');
+        let total = 0;
+        let totalPendientes = 0;
+        let totalTerminadas = 0;
+        if (tareasLocalStorage !== null){
+            tareasLocalStorage = JSON.parse(tareasLocalStorage);
+            console.log(tareasLocalStorage)
+            for(let i = 0; i < tareasLocalStorage.length; i++){
+                total +=1;
+                if(tareasLocalStorage[i][3]){
+                    totalPendientes += 1;
+                }else{
+                    totalTerminadas += 1;
+                }
+            }
+            mostrarEstadoDeLasTareas(total, totalPendientes,totalTerminadas);
+        }
+    }
+
+    function mostrarEstadoDeLasTareas(total,totalPendientes,totalTerminadas){
+        document.getElementById('total').textContent = `Total: ${total}`;
+        document.getElementById('totalPendientes').textContent = `Pendientes: ${totalPendientes}`;
+        document.getElementById('totalTerminadas').textContent = `Terminadas: ${totalTerminadas}`;
+    }
     function ocultarPagina(){
         PAGINAS.forEach(pagina =>{
             pagina.style.display = 'none';
@@ -76,6 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     function porDefecto(){
+        prioridad = PRIORIDADES.normal;
         NUEVATarea.value = '';
         DESCRIPCION.value = '';
         SELECT.value = 'normal';
@@ -96,6 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     function guardarTarea(tarea, descripcion, prioridad){
+            porDefecto();
             let existeTareas = localStorage.getItem('tareas'); 
             let datos = [tarea, descripcion, prioridad, pendiente]
             if(existeTareas !== null){

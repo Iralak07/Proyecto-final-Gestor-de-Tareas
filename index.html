@@ -29,9 +29,9 @@
                         <h1>Estado de las Tareas</h1>
                     </div>
                     <div>
-                        <p><span style="color:#1929a5; font-size:20px">Total: </span>22</p>
-                        <p><span style="color:#C84B31; font-size:20px">Pendientes: </span>12</p>
-                        <p><span style="color:#07f407; font-size:20px">Terminadas: </span> 10</p>
+                        <p><span style="color:#1929a5; font-size:20px" id="total"></span></p>
+                        <p><span style="color:#C84B31; font-size:20px" id="totalPendientes"></span></p>
+                        <p><span style="color:#07f407; font-size:20px" id="totalTerminadas"></span></p>
                     </div>
                 </div>
             </div>
@@ -47,7 +47,7 @@
                                 <input id="tarea" placeholder = "Nueva Tarea" type="text">
 
                                 Breve descripcion
-                                <textarea id="descripcion" type="text" placeholder="Ingrese una descripcion de la tarea a realizarse" size="100"></textarea>
+                                <textarea id="descripcion" type="text" placeholder="Ingrese una descripcion de la tarea a realizarse" size="100" maxlength="50"></textarea>
                                 Prioridad:
                                 <select>
                                     <option value="normal" selected>Normal</option>
