@@ -16,6 +16,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Estado inicial de la tarea
     let pendiente = true;
+
+    // prioridades de cada tarea
     const PRIORIDADES = {
         normal: 'NORMAL',
         medio: 'MEDIO',
@@ -24,9 +26,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Por defecto la prioridad se coloca en normal
     let prioridad = PRIORIDADES.normal;
+    let listaTareas;
     
+
+    // Con esta funcion cambiamos la pagina, es decir dinamicamente ocultamos los divs y mostramos el div correspondiente a la pagina determinada
     function cambiarPagina(pagina){
+        // limpiamos las tares existentes
         limpiarTareas();
+        // ocultamos todas las paginas
         ocultarPagina();
         if(pagina == 'pagina1'){
             estadoDeLasTareas();
@@ -34,6 +41,8 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById(`${pagina}`).style.display = 'flex'
     };
 
+
+    // Con esta funcion se hace un recuente de todas la treas existentes, las que estan pendientes y las terminadas
     function estadoDeLasTareas(){
         let tareasLocalStorage = localStorage.getItem('tareas');
         let total = 0;
@@ -54,30 +63,37 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+
+    // con esta funcion mostramos el resultado de la funcion estadoDeLasTares
     function mostrarEstadoDeLasTareas(total,totalPendientes,totalTerminadas){
         document.getElementById('total').textContent = `Total: ${total}`;
         document.getElementById('totalPendientes').textContent = `Pendientes: ${totalPendientes}`;
         document.getElementById('totalTerminadas').textContent = `Terminadas: ${totalTerminadas}`;
     }
+    // ocultamos todos los div
     function ocultarPagina(){
         PAGINAS.forEach(pagina =>{
             pagina.style.display = 'none';
         })
     };
 
+    // por defecto al cargarse la pagina se muestra la primera pagina, correspondiente al inicio
     cambiarPagina('pagina1');
 
+
+    // Aqui recorremos los botones que tienen a los cuales le hemos asignado un dato correspondiente a la pagina1, pagina2 y pagina3
     BOTONPagina.forEach(boton=>{
         boton.onclick = function(){
+            // obtenemos el dato del boton seleccionado
             seccion = this.dataset.pagina;
-            // Agregamos al historial del navegador
-            // history.pushState({section: seccion}, "", `/${seccion == 'pagina2'? 'registroTareas':'tareas'}`);
             if(seccion == 'pagina2'){
                 cambiarPagina(seccion);
                 agregarUltimasTareasCreadas()
             }else if(seccion == 'pagina3'){
                 cambiarPagina(seccion);
                 obtenerTareas();
+            }else{
+                cambiarPagina(seccion);
             }
         }
     });
@@ -94,11 +110,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
+    // aqui obtenemos el valor del select
     SELECT.onchange = ()=>{
         prioridad = PRIORIDADES[SELECT.value];
     }
 
 
+    // aqui establecemos los valores por defecto,
     function porDefecto(){
         prioridad = PRIORIDADES.normal;
         NUEVATarea.value = '';
@@ -110,6 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
     porDefecto();
 
 
+    // Aqui obtenemos el color seguna la prioridad
     function obtenerColor(prioridad){
         if(prioridad == PRIORIDADES.normal){
             return '#46B5D1';
@@ -120,10 +139,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
+
+    // Aqui guardamos la nueva tarea
     function guardarTarea(tarea, descripcion, prioridad){
             porDefecto();
+            // volcamos en la variable existeTareas desde el localstorage el item con el nombre 'tareas'
             let existeTareas = localStorage.getItem('tareas'); 
+            // creamos una varible de tipo array y colocamos los valores
             let datos = [tarea, descripcion, prioridad, pendiente]
+            // Nos pregunatamos si existe el key o el item con el nombre 'tareas' dentro del localStorage
             if(existeTareas !== null){
                 // Si la clave ya existe, obtener el valor actual
                 let tareas = JSON.parse(existeTareas);
@@ -137,11 +161,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
     };
 
+    // Esta funcion se dispara cuando ingresamos dentro de registrar tareas, mostrando las ultimas tres, si es que existe
     function agregarUltimasTareasCreadas(){
         limpiarTareas();
         let tareasLocalStorage = localStorage.getItem('tareas');
         if (tareasLocalStorage !== null){
-            tareasLocalStorage = JSON.parse(tareasLocalStorage).reverse();
+            tareasLocalStorage = JSON.parse(tareasLocalStorage).slice(-3);
             for(let i = 0; i < tareasLocalStorage.length; i++){
                 if(i <=2){
                     let tarea = tareasLocalStorage[i][0];
@@ -172,6 +197,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
+
+    // Aqui obtenemos las tareas existentes dentro del localstorage
     function obtenerTareas(){
         let tareasLocalStorage = localStorage.getItem('tareas');
         if (tareasLocalStorage !== null){
@@ -185,23 +212,31 @@ document.addEventListener('DOMContentLoaded', function() {
                 crearElementos(tarea, descripcion, prioridad, estado, id);  
             }
         }
-    }
-    
+        };
+
+
+    // con esta funcion limpiamos los contenedores en los cuales mostramos las tareas pendientes, terminadas y las ultimas agregadas
     function limpiarTareas(){
         CONTENEDORPendientes.innerHTML = '';
         CONTENEDORTerminadas.innerHTML = '';
         CONTENEDORUltimasAgregadas.innerHTML = '';
     }
 
+    // Aqui cambiamos el estado de una tarea
     function cambiarEstado(id){
         let tareasLocalStorage = localStorage.getItem('tareas');
         tareasLocalStorage = JSON.parse(tareasLocalStorage);
         tareasLocalStorage[id][3] = tareasLocalStorage[id][3] == true? false : true;
         localStorage.setItem('tareas', JSON.stringify(tareasLocalStorage));
-        limpiarTareas();
-        obtenerTareas();
+        if(seccion == 'pagina2'){
+            agregarUltimasTareasCreadas()
+        }else{
+            limpiarTareas();
+            obtenerTareas();
+        }
     }
 
+    // aqui eliminamos una tarea, recibiendo como parametro el id, que no es mas que la posicion de la tarea en el array devuelto por el localstorage
     function eliminarTarea(id){
         let tareasLocalStorage = localStorage.getItem('tareas');
         tareasLocalStorage = JSON.parse(tareasLocalStorage);
@@ -210,9 +245,14 @@ document.addEventListener('DOMContentLoaded', function() {
         limpiarTareas();
         obtenerTareas(); 
     }
+
+
+    // En esta funcion, tomamos el evento click ocurrido entro del document
     document.addEventListener('click', (evento)=>{
+        // obtenemos el elemento en el cual se ha realizado click
         let elemento = evento.target;
         let id = elemento.dataset.id;
+        // Aqui comparamos si se ha realizado en el elemento que corresponde al boton eliminar, pendiente y X, para eliminar o cambiar el estado de una tarea
         if(elemento.textContent == 'Terminar'){
             cambiarEstado(id)
         }else if(elemento.textContent == 'Pendiente'){

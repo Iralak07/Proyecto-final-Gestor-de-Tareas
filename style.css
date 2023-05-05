@@ -9,11 +9,33 @@ body {
   color: aliceblue;
 }
 
+.navBar{
+  display: flex;
+  flex-direction: row;
+  background-color: #1B2430;
+  padding: 10px;
+  justify-content: space-between;
+}
+
+.navBar div {
+  margin: 5px;
+}
+
+.navBar div button{
+  border: none;
+  background-color: #A5D7E8;
+  padding: 5px;
+  width: 150px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: .3s ease;
+}
+
 header {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-top: 100px;
+  margin-top: 50px;
 }
 
 header div{

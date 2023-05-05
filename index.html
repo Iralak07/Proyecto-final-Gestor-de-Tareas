@@ -1,5 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
+    <div class="navBar">
+        <div>
+            <button class='botonPag' data-pagina="pagina1">Inicio</button>
+        </div>
+        <div>
+            <button class='botonPag' data-pagina="pagina2">Registrar Tareas</button>
+            <button class='botonPag' data-pagina="pagina3">Ver Tareas</button>
+            <button class='botonPag' data-pagina="acerca">Acerca de</button>
+        </div>
+    </div>
     <head>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
         <title>Tareas</title>
@@ -45,7 +55,7 @@
                 <div id="formulario">
                     <form>
                                 Nombre de la Tarea
-                                <input id="tarea" placeholder = "Nueva Tarea" type="text">
+                                <input id="tarea" placeholder = "Nueva Tarea" type="text" autocomplete="off">
 
                                 Breve descripcion
                                 <textarea id="descripcion" type="text" placeholder="Ingrese una descripcion de la tarea a realizarse" size="100" maxlength="200"></textarea>
