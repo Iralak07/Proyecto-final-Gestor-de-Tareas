@@ -273,3 +273,28 @@ p {
     font-size: 25px;
   }
 }
+
+/* Pagina Acerca De  */
+
+#pagina4 {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+  text-align: center;
+}
+
+#pagina4 div{
+  margin-top: 100px;
+  padding: 10px;
+}
+
+section {
+  text-align: justify;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+section p {
+  margin: 10px 0;
+}
+

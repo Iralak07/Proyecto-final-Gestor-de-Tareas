@@ -31,12 +31,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Con esta funcion cambiamos la pagina, es decir dinamicamente ocultamos los divs y mostramos el div correspondiente a la pagina determinada
     function cambiarPagina(pagina){
+        document.querySelector('header').style.display = 'flex';
         // limpiamos las tares existentes
         limpiarTareas();
         // ocultamos todas las paginas
         ocultarPagina();
         if(pagina == 'pagina1'){
             estadoDeLasTareas();
+        }else if(pagina == 'pagina4'){
+            document.querySelector('header').style.display = 'none';
         }
         document.getElementById(`${pagina}`).style.display = 'flex'
     };
@@ -50,7 +53,6 @@ document.addEventListener('DOMContentLoaded', function() {
         let totalTerminadas = 0;
         if (tareasLocalStorage !== null){
             tareasLocalStorage = JSON.parse(tareasLocalStorage);
-            console.log(tareasLocalStorage)
             for(let i = 0; i < tareasLocalStorage.length; i++){
                 total +=1;
                 if(tareasLocalStorage[i][3]){
@@ -92,6 +94,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }else if(seccion == 'pagina3'){
                 cambiarPagina(seccion);
                 obtenerTareas();
+            }else if(seccion == 'pagina4'){
+                cambiarPagina(seccion);
             }else{
                 cambiarPagina(seccion);
             }
@@ -228,11 +232,11 @@ document.addEventListener('DOMContentLoaded', function() {
         tareasLocalStorage = JSON.parse(tareasLocalStorage);
         tareasLocalStorage[id][3] = tareasLocalStorage[id][3] == true? false : true;
         localStorage.setItem('tareas', JSON.stringify(tareasLocalStorage));
-        if(seccion == 'pagina2'){
-            agregarUltimasTareasCreadas()
-        }else{
+        if(seccion == 'pagina3'){
             limpiarTareas();
             obtenerTareas();
+        }else{
+            agregarUltimasTareasCreadas();
         }
     }
 
@@ -305,10 +309,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         botonCerrarPendientes.appendChild(divSeccionBotonPendientes);
 
+
         let botonTerminarPendientes = document.createElement('button');
         botonTerminarPendientes.setAttribute('data-id', id);
         botonTerminarPendientes.classList.add('botonEstado');
         botonTerminarPendientes.textContent = estado == true ? 'Terminar': 'Pendiente';
+
 
         seccionBotonPendientes.appendChild(botonCerrarPendientes);
         seccionBotonPendientes.appendChild(botonTerminarPendientes);
